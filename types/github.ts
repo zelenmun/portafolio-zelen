@@ -16,10 +16,6 @@ export interface GitHubSearchResult<T> {
   items: T[];
 }
 
-export interface GitHubRepoSearchResult extends GitHubSearchResult<GitHubRepo> {}
-
-export interface GitHubUserSearchResult extends GitHubSearchResult<GitHubUser> {}
-
 export interface GitHubRateLimit {
   limit: number;
   remaining: number;
@@ -29,23 +25,6 @@ export interface GitHubRateLimit {
 
 export interface GitHubApiResponse {
   rate_limit?: GitHubRateLimit;
-}
-
-// Extender los tipos base para incluir más propiedades
-export interface ExtendedGitHubRepo extends GitHubRepo {
-  topics?: string[];
-  license?: {
-    key: string;
-    name: string;
-    spdx_id: string;
-  } | null;
-  default_branch?: string;
-  open_issues_count?: number;
-  watchers_count?: number;
-  size?: number;
-  archived?: boolean;
-  disabled?: boolean;
-  pushed_at?: string;
 }
 
 export interface GitHubBranch {
