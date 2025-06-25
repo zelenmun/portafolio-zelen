@@ -287,7 +287,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(mockData);
     }
 
-    const token = process.env.GITHUB_TOKEN;
+    const token = process.env.REACT_APP_GITHUB_TOKEN;
 
     if (!token) {
       return NextResponse.json(
@@ -428,7 +428,7 @@ export async function HEAD(request: NextRequest) {
       const mockData = generateMockData();
       dateInfo = mockData.dateRange;
     } else {
-      const token = process.env.GITHUB_TOKEN;
+      const token = process.env.REACT_APP_GITHUB_TOKEN;
 
       if (!token) {
         return NextResponse.json(
