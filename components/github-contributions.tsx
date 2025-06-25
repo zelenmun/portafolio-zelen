@@ -44,7 +44,6 @@ const FloatingParticles = memo(() => {
           style={style}
         />
       ))}
-      // 3. AGREGAR: Estas animaciones CSS en el useEffect de FloatingParticles (reemplazar el style jsx)
       <style jsx>{`
         @keyframes float {
           0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
