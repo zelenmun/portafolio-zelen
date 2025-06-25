@@ -44,6 +44,7 @@ const FloatingParticles = memo(() => {
           style={style}
         />
       ))}
+      // 3. AGREGAR: Estas animaciones CSS en el useEffect de FloatingParticles (reemplazar el style jsx)
       <style jsx>{`
         @keyframes float {
           0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
@@ -51,10 +52,37 @@ const FloatingParticles = memo(() => {
           90% { opacity: 0.3; }
           100% { transform: translateY(-20px) rotate(180deg); opacity: 0; }
         }
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.8; }
+        }
+        .animate-shimmer {
+          animation: shimmer 2s infinite;
+        }
+        .animate-pulse-glow {
+          animation: pulse-glow 2s ease-in-out infinite;
+        }
       `}</style>
     </div>
   );
 });
+
+// 1. AGREGAR: Nuevo componente de Shimmer (insertar después de FloatingParticles)
+const Shimmer = memo(() => (
+  <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+));
+
+// 2. AGREGAR: Nuevo componente SkeletonBox (insertar después de Shimmer)
+const SkeletonBox = memo(({ className, children }: { className?: string; children?: React.ReactNode }) => (
+  <div className={`relative overflow-hidden bg-[#848792]/10 rounded-lg ${className}`}>
+    <Shimmer />
+    {children}
+  </div>
+));
 
 // Componente de barra de intensidad
 const IntensityBar = memo(({ level, isVisible }: { level: number, isVisible: boolean }) => {
@@ -301,36 +329,102 @@ export const GitHubContributions: React.FC<GitHubContributionsProps> = ({
 
   const weeks = contributions.length > 0 ? organizeByWeeks() : [];
   const dayLabels: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const monthLabels: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  if (loading) {
-    return (
-      <div className="relative rounded-2xl p-6 border-2 border-[#848792]/20 shadow-2xl backdrop-blur-sm overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1AD6BB]/5 via-transparent to-[#CB399E]/5 animate-pulse" />
-        <div className="animate-pulse">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-[#848792]/20 rounded-xl"></div>
-              <div>
-                <div className="h-4 bg-[#848792]/20 rounded w-32 mb-2"></div>
-                <div className="h-3 bg-[#848792]/20 rounded w-24"></div>
+  // 4. REEMPLAZAR: Todo el bloque del loading (desde "if (loading) {" hasta el primer "}" que cierra ese bloque)
+if (loading) {
+  return (
+    <div className="relative rounded-2xl p-6 border-2 border-[#848792]/20 shadow-2xl backdrop-blur-sm overflow-hidden">
+      {/* Background gradient más dinámico */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1AD6BB]/5 via-[#CB399E]/5 to-[#1AD6BB]/5 animate-pulse-glow" />
+      
+      {/* Floating particles durante carga */}
+      <FloatingParticles />
+      
+      <div className="relative z-10">
+        {/* Stats skeleton mejorado */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+          {[
+            { icon: Activity, color: '#1AD6BB' },
+            { icon: Zap, color: '#CB399E' },
+            { icon: TrendingUp, color: '#FFD700' }
+          ].map(({ icon: Icon, color }, index) => (
+            <SkeletonBox 
+              key={index} 
+              className="p-3 rounded-lg border border-[#848792]/10"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Icon className="w-4 h-4 animate-pulse" style={{ color: `${color}60` }} />
+                <SkeletonBox className="h-3 w-12" />
               </div>
-            </div>
-          </div>
-          <div className="flex gap-4 mb-4">
-            <div className="w-24 h-16 bg-[#848792]/20 rounded-lg"></div>
-            <div className="w-24 h-16 bg-[#848792]/20 rounded-lg"></div>
-            <div className="w-24 h-16 bg-[#848792]/20 rounded-lg"></div>
-          </div>
-          <div className="grid grid-cols-53 gap-1">
-            {Array.from({ length: 371 }, (_, i) => (
-              <div key={i} className="w-3 h-3 bg-[#848792]/20 rounded-sm"></div>
+              <SkeletonBox className="h-6 w-16" />
+            </SkeletonBox>
+          ))}
+        </div>
+
+        {/* Contribution grid skeleton más realista */}
+        <div className="space-y-2">
+          {/* Month labels skeleton */}
+          <div className="flex mb-2 ml-8 gap-1">
+            {Array.from({ length: 12 }, (_, i) => (
+              <SkeletonBox 
+                key={i} 
+                className="h-3 w-8"
+              />
             ))}
           </div>
+
+          {/* Grid skeleton con patrón más realista */}
+          <div className="flex">
+            {/* Day labels skeleton */}
+            <div className="flex flex-col pr-2 space-y-1">
+              {Array.from({ length: 7 }, (_, i) => (
+                <SkeletonBox 
+                  key={i} 
+                  className="h-3 w-6"
+                />
+              ))}
+            </div>
+
+            {/* Contribution squares con animación escalonada */}
+            <div className="flex gap-1">
+              {Array.from({ length: 53 }, (_, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-1">
+                  {Array.from({ length: 7 }, (_, dayIndex) => (
+                    <div
+                      key={`${weekIndex}-${dayIndex}`}
+                      className="w-3 h-3 rounded-sm bg-[#848792]/20 animate-pulse"
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Legend skeleton */}
+        <div className="flex items-center justify-between mt-4">
+          <SkeletonBox className="h-3 w-48" />
+          <div className="flex items-center gap-1">
+            <SkeletonBox className="h-3 w-8" />
+            {Array.from({ length: 5 }, (_, i) => (
+              <SkeletonBox 
+                key={i} 
+                className="w-3 h-3 rounded-sm"
+              />
+            ))}
+            <SkeletonBox className="h-3 w-8" />
+          </div>
+        </div>
+
+        {/* Loading message */}
+        <div className="mt-3 flex items-center gap-2 text-xs text-[#1AD6BB]">
+          <div className="w-2 h-2 bg-[#1AD6BB] rounded-full animate-bounce" />
+          <span className="animate-pulse">Loading GitHub contributions...</span>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   if (error) {
     return (
@@ -495,3 +589,6 @@ export const GitHubContributions: React.FC<GitHubContributionsProps> = ({
 FloatingParticles.displayName = 'FloatingParticles';
 IntensityBar.displayName = 'IntensityBar';
 ContributionStats.displayName = 'ContributionStats';
+// 5. AGREGAR: Al final del archivo, después de las asignaciones displayName
+Shimmer.displayName = 'Shimmer';
+SkeletonBox.displayName = 'SkeletonBox';

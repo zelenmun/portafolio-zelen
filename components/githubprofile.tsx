@@ -185,34 +185,43 @@ const useGitHubAPI = () => {
   };
 
   const getUserInfo = useCallback(async (username: string): Promise<GitHubUser> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchWithErrorHandling(`https://api.github.com/users/${username}`);
-      return data;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
-      throw err;
-    } finally {
-      setLoading(false);
-    }
+    const data = await fetchWithErrorHandling(`https://api.github.com/users/${username}`);
+    return data;
   }, []);
 
   const getUserRepos = useCallback(async (username: string): Promise<GitHubRepo[]> => {
+    const data = await fetchWithErrorHandling(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    return data;
+  }, []);
+
+  // NUEVA FUNCIÓN: Obtener datos en paralelo
+  const getUserData = useCallback(async (username: string) => {
     setLoading(true);
     setError(null);
+    
     try {
-      const data = await fetchWithErrorHandling(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
-      return data;
+      // 🚀 LLAMADAS PARALELAS - Se ejecutan al mismo tiempo
+      const [userInfo, repositories] = await Promise.all([
+        getUserInfo(username),
+        getUserRepos(username)
+      ]);
+
+      return { userInfo, repositories };
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
       throw err;
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getUserInfo, getUserRepos]);
 
-  return { loading, error, getUserInfo, getUserRepos };
+  return { 
+    loading, 
+    error, 
+    getUserInfo, 
+    getUserRepos, 
+    getUserData // Nueva función optimizada
+  };
 };
 
 export function GitHubProfile() {
@@ -312,27 +321,6 @@ export function GitHubProfile() {
 
     return () => clearInterval(timer);
   }, [isVisible, stats]);
-
-  const handleRefresh = useCallback(() => {
-    setAnimatedStats({ repos: 0, stars: 0, followers: 0 });
-    setShowSparkles(false);
-    setPulseEffect(false);
-    
-    setTimeout(() => {
-      setAnimatedStats({
-        repos: stats.repos,
-        stars: stats.stars,
-        followers: stats.followers,
-      });
-      setShowSparkles(true);
-      setPulseEffect(true);
-      
-      setTimeout(() => {
-        setShowSparkles(false);
-        setPulseEffect(false);
-      }, 2000);
-    }, 100);
-  }, [stats]);
 
   if (loading && !userInfo) {
     return (
