@@ -70,7 +70,7 @@ const developerData: DeveloperData = {
   experiencia_actual: "Junior",
   experiencia_maxima: "Senior",
   rareza_nivel: 5,
-  avatar_url: "/002.jpg?height=400&width=300",
+  avatar_url: "/001.jpg?height=400&width=300",
   attack: 2850,
   defense: 1240,
   stamina: 45600,
