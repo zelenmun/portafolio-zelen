@@ -10,9 +10,10 @@ import {
 import { SkillEquipmentModal } from "./skill-equipment-modal";
 import { StatsPanel } from "./stats-panel";
 import { EquipmentSlot } from "./equipment-slot";
-import { GitHubProfile } from './githubprofile';
+import { GitHubProfile } from './github-profile';
 import { GitHubContributions } from "./github-contributions";
 import { AboutMeModal } from "./aboutme-modal";
+import { GitHubRepositories } from "./github-repositories"
 
 interface DeveloperData {
   nombre: string;
@@ -195,7 +196,7 @@ export function GachaHeroPage() {
       </header>
 
       {/* Main Content - Improved mobile layout */}
-      <div className="relative z-10 flex flex-col lg:flex-row pb-20 lg:pb-0">
+      <div className="relative z-10 flex flex-col lg:flex-row lg:pb-0">
         {/* Left Panel - Equipment (Mobile: appears at top) */}
         <div className="w-full lg:w-[400px] xl:w-[500px] order-4 lg:order-none">
           <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
@@ -206,7 +207,7 @@ export function GachaHeroPage() {
                   SKILLS
                 </h3>
               </div>
-              <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+              <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
                 {equipmentData.map((item) => (
                   <EquipmentSlot key={item.id} equipment={item} />
                 ))}
@@ -299,7 +300,7 @@ export function GachaHeroPage() {
             <GitHubContributions username="zelenmun" showMockData={false} />
 
             {/* Stats Panel */}
-            <StatsPanel />
+            <GitHubRepositories />
           </div>
         </div>
       </div>
