@@ -28,7 +28,8 @@ import {
   Github,
   Phone,
   X,
-  Info
+  Info,
+  Link
 } from "lucide-react";
 import { SkillEquipmentModal } from "./skill-equipment-modal";
 import { StatsPanel } from "./stats-panel";
@@ -48,7 +49,6 @@ interface DeveloperData {
   attack: number;
   defense: number;
   stamina: number;
-  aboutme: string;
 }
 
 interface Equipment {
@@ -64,40 +64,16 @@ interface Equipment {
 
 // Static developer data
 const developerData: DeveloperData = {
-  nombre: "ZELEN",
+  nombre: "OSCAR MORÁN",
   titulo: "Full Stack Developer",
   nivel: 85,
   experiencia_actual: "Junior",
   experiencia_maxima: "Senior",
   rareza_nivel: 5,
-  avatar_url: "/30.webp?height=400&width=300",
+  avatar_url: "/002.jpg?height=400&width=300",
   attack: 2850,
   defense: 1240,
   stamina: 45600,
-  aboutme: `
-    <div class="text-white p-6 rounded-xl shadow-lg">
-      <h2 class="text-2xl font-bold text-cyan-400 mb-4">Sobre mí</h2>
-      <p class="mb-4">
-        ¡Hola! Soy <span class="font-semibold text-cyan-300">Zelen</span>, un desarrollador fullstack con pasión por crear soluciones web que realmente sirvan. 
-        No solo me enfoco en que se vean bien, sino en que funcionen y resuelvan problemas reales.
-      </p>
-      <p class="mb-4">
-        Mi stack principal incluye <span class="text-yellow-300">Python/Django</span> para el backend y 
-        <span class="text-yellow-300">JavaScript/jQuery</span> para el frontend, aunque no le saco el cuerpo a nuevas tecnologías si el proyecto lo necesita.
-      </p>
-      <p class="mb-4">
-        He desarrollado desde sistemas de gestión administrativa hasta plataformas completas para talleres mecánicos, 
-        trabajando con bases de datos relacionales, contenedores <span class="text-blue-300">Docker</span> y optimización tanto en el código como en la interfaz.
-      </p>
-      <p class="mb-4">
-        Actualmente estudio <span class="text-green-300">Ciencia de Datos</span>, porque creo que el desarrollo va más allá del código: 
-        se trata de entender datos, contextos y usuarios.
-      </p>
-      <p>
-        Me gusta construir software lógico, útil y mantenible, sin perder de vista el lado humano del desarrollo.
-      </p>
-    </div>
-  `,
 };
 
 // Static equipment data
@@ -283,18 +259,15 @@ export function GachaHeroPage() {
                   ></div>
                 </div>
                 {/* Social Buttons */}
-                <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
-                  <button className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E]/50 text-sm sm:text-base">
+                <div className="grid grid-cols-4 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
+                  <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E]/80 text-sm sm:text-base">
                     <Github className="inline-block w-8 h-8" />
                   </button>
-                  <button className="w-full text-[#26AA9B] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B]/50 text-sm sm:text-base">
+                  <button onClick={() => window.open("https://www.linkedin.com/in/oscar-moran-gomez/", "_blank")} className="w-full text-[#26AA9B] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B]/80 text-sm sm:text-base">
                     <Linkedin className="inline-block w-8 h-8" />
                   </button>
-                  <button className="w-full text-[#B4B636] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636]/50 text-sm sm:text-base">
+                  <button onClick={() => window.open("mailto:oscar_gomez2018@hotmail.com")} className="w-full text-[#B4B636] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636]/80 text-sm sm:text-base">
                     <Mail className="inline-block w-8 h-8" />
-                  </button>
-                  <button className="w-full text-[#2FB560] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#2FB560]/50 text-sm sm:text-base">
-                    <Phone className="inline-block w-8 h-8" />
                   </button>
                 </div>
               </div>

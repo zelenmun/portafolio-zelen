@@ -170,12 +170,11 @@ export const AboutMeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                       <p className="text-[#DEE4E4] leading-relaxed text-base">
                         ¡Hola! Soy{" "}
                         <span className="font-semibold text-cyan-300">
-                          Zelen
+                          Oscar
                         </span>
-                        , un desarrollador fullstack con pasión por crear
-                        soluciones web que realmente sirvan. No solo me enfoco
-                        en que se vean bien, sino en que funcionen y resuelvan
-                        problemas reales.
+                        , un desarrollador fullstack apasionado por el
+                        desarrollo web. No solo me enfoco en que se vean bien,
+                        sino en que funcionen y resuelvan problemas reales.
                       </p>
                       {/* Subtle glow line */}
                       <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-[#1AD6BB]/40 to-transparent rounded-full" />
@@ -193,7 +192,7 @@ export const AboutMeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                           <div className="w-1.5 h-1.5 bg-[#CB399E] rounded-full mt-2 group-hover:scale-150 transition-transform duration-300" />
                           <span className="text-[#DEE4E4] leading-relaxed group-hover:text-[#1AD6BB] transition-colors duration-300">
                             Backend con{" "}
-                            <span className="text-yellow-300">
+                            <span className="text-[#D3D61A] font-bold">
                               Python/Django
                             </span>
                           </span>
@@ -202,8 +201,8 @@ export const AboutMeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                           <div className="w-1.5 h-1.5 bg-[#CB399E] rounded-full mt-2 group-hover:scale-150 transition-transform duration-300" />
                           <span className="text-[#DEE4E4] leading-relaxed group-hover:text-[#1AD6BB] transition-colors duration-300">
                             Frontend con{" "}
-                            <span className="text-yellow-300">
-                              JavaScript/jQuery
+                            <span className="text-[#1AD65F] font-bold">
+                              JavaScript/jQuery | React
                             </span>
                           </span>
                         </div>
@@ -211,13 +210,16 @@ export const AboutMeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                           <div className="w-1.5 h-1.5 bg-[#CB399E] rounded-full mt-2 group-hover:scale-150 transition-transform duration-300" />
                           <span className="text-[#DEE4E4] leading-relaxed group-hover:text-[#1AD6BB] transition-colors duration-300">
                             Contenedores y despliegue con{" "}
-                            <span className="text-blue-300">Docker</span>
+                            <span className="text-[#D61A72] font-bold">Docker</span>
                           </span>
                         </div>
                         <div className="flex items-start space-x-3 group">
                           <div className="w-1.5 h-1.5 bg-[#CB399E] rounded-full mt-2 group-hover:scale-150 transition-transform duration-300" />
                           <span className="text-[#DEE4E4] leading-relaxed group-hover:text-[#1AD6BB] transition-colors duration-300">
-                            Optimización de código y experiencia de usuario
+                            Enfocado en{" "}
+                            <span className="text-[#D3D61A] font-bold">
+                              Experiencia de Usuario
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -227,22 +229,41 @@ export const AboutMeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                       <div className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-[#CB399E] rounded-full animate-pulse" />
                         <h3 className="text-[#CB399E] font-bold text-lg tracking-wide">
-                          Formación & Filosofía
+                          Formación
                         </h3>
                       </div>
                       <div className="relative pl-4">
                         <p className="text-[#DEE4E4] leading-relaxed text-base">
                           Actualmente estudio{" "}
-                          <span className="text-green-300">
-                            Ciencia de Datos
+                          <span className="text-[#1AD65F] font-bold">
+                            Ciencia de Datos{" "}
                           </span>
-                          , porque creo que el desarrollo va más allá del
-                          código: se trata de entender datos, contextos y
-                          usuarios.
+                          con bases sólidas en programación gracias a mi paso
+                          por la carrera de{" "}
+                          <span className="text-[#1AD6BB] font-bold">
+                            Software
+                          </span>
+                          , creo que el desarrollo va más allá del código: se
+                          trata de entender datos, contextos y usuarios.
                         </p>
                         <p className="text-[#DEE4E4] leading-relaxed text-base mt-2">
                           Me gusta construir software lógico, útil y mantenible,
                           sin perder de vista el lado humano del desarrollo.
+                        </p>
+                        {/* Quote-like accent */}
+                        <div className="absolute -left-2 top-0 w-1 h-full bg-gradient-to-b from-[#CB399E]/40 to-transparent rounded-full" />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-[#CB399E] rounded-full animate-pulse" />
+                        <h3 className="text-[#CB399E] font-bold text-lg tracking-wide">
+                          Filosofía
+                        </h3>
+                      </div>
+                      <div className="relative pl-4">
+                        <p className="text-[#DEE4E4] leading-relaxed italic mt-2">
+                          "Non natus sum ut convenirem, sed ut intelligerem."
                         </p>
                         {/* Quote-like accent */}
                         <div className="absolute -left-2 top-0 w-1 h-full bg-gradient-to-b from-[#CB399E]/40 to-transparent rounded-full" />
