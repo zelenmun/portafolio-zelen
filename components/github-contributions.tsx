@@ -156,19 +156,18 @@ const ContributionStats = memo(({
   }, [isVisible, totalContributions, currentStreak, longestStreak]);
 
   return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+  <div className="grid grid-cols-1 gap-3 mb-4">
     <div className={`group bg-gradient-to-r from-[#1AD6BB]/10 to-transparent rounded-lg p-3 border border-[#1AD6BB]/20 transition-all duration-500 ${
       isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
     }`}>
-      <div className="flex items-center gap-2 mb-1">
+      <div className="flex items-center gap-2 mb-1 justify-between">
         <Activity className="w-4 h-4 text-[#1AD6BB]" />
-        <span className="text-xs text-[#848792]">TOTAL</span>
+        <span className="text-xs text-[#1AD6BB] font-bold">TOTAL COMMITS:</span>
+        <span className="text-[#1AD6BB] font-bold text-lg">{animatedTotal.toLocaleString()}</span>
       </div>
-      <span className="text-[#1AD6BB] font-bold text-lg">
-        {animatedTotal.toLocaleString()}
-      </span>
     </div>
 
+    {/*
     <div className={`group bg-gradient-to-r from-[#CB399E]/10 to-transparent rounded-lg p-3 border border-[#CB399E]/20 transition-all duration-500 ${
       isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
     }`} style={{ transitionDelay: '200ms' }}>
@@ -192,6 +191,7 @@ const ContributionStats = memo(({
         {animatedLongest}
       </span>
     </div>
+    */}
   </div>
 );
 
@@ -341,23 +341,14 @@ if (loading) {
       
       <div className="relative z-10">
         {/* Stats skeleton mejorado */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-          {[
-            { icon: Activity, color: '#1AD6BB' },
-            { icon: Zap, color: '#CB399E' },
-            { icon: TrendingUp, color: '#FFD700' }
-          ].map(({ icon: Icon, color }, index) => (
-            <SkeletonBox 
-              key={index} 
-              className="p-3 rounded-lg border border-[#848792]/10"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Icon className="w-4 h-4 animate-pulse" style={{ color: `${color}60` }} />
-                <SkeletonBox className="h-3 w-12" />
-              </div>
-              <SkeletonBox className="h-6 w-16" />
-            </SkeletonBox>
-          ))}
+        <div className="grid grid-cols-1 gap-3 mb-4">
+          <div className="group bg-gradient-to-r from-[#1AD6BB]/10 to-transparent rounded-lg p-3 border border-[#1AD6BB]/20 transition-all duration-500 animate-pulse">
+            <div className="flex items-center gap-2 mb-1 justify-between">
+              <div className="w-4 h-4 bg-[#1AD6BB]/30 rounded animate-pulse"></div>
+              <div className="h-3 w-24 bg-[#1AD6BB]/20 rounded animate-pulse"></div>
+              <div className="h-5 w-16 bg-[#1AD6BB]/30 rounded animate-pulse"></div>
+            </div>
+          </div>
         </div>
 
         {/* Contribution grid skeleton más realista */}

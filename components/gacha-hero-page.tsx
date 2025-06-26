@@ -167,6 +167,7 @@ export function GachaHeroPage() {
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <div className="min-h-screen bg-[#0C0B0C] overflow-hidden">
@@ -276,14 +277,14 @@ export function GachaHeroPage() {
               </div>
                 {/* Social Buttons */}
                 <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
-                  <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E] text-sm sm:text-base">
-                    <Github className="inline-block w-8 h-8" />
+                  <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="hover:drop-shadow-[0_0_20px_rgba(203,57,158,1)] w-full text-white font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E] text-sm sm:text-base drop-shadow-[0_0_8px_rgba(203,57,158,0.8)] hover:scale-110 hover:rotate-1 hover:z-10 active:scale-95 active:rotate-0">
+                    <Github className="inline-block w-8 h-8 hover:drop-shadow-[0_0_8px_rgba(203,57,158,0.8)] transition-all duration-300" />
                   </button>
-                  <button onClick={() => window.open("https://www.linkedin.com/in/oscar-moran-gomez/", "_blank")} className="w-full text-[#26AA9B] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B] text-sm sm:text-base">
-                    <Linkedin className="inline-block w-8 h-8" />
+                  <button onClick={() => window.open("https://www.linkedin.com/in/oscar-moran-gomez/", "_blank")} className="hover:drop-shadow-[0_0_20px_rgba(26,214,187,1)] w-full text-white font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B] text-sm sm:text-base drop-shadow-[0_0_8px_rgba(26,214,187,0.6)] hover:scale-110 hover:rotate-1 hover:z-10 active:scale-95 active:rotate-0">
+                    <Linkedin className="inline-block w-8 h-8 hover:drop-shadow-[0_0_8px_rgba(26,214,187,0.6)] transition-all duration-300" />
                   </button>
-                  <button onClick={() => window.open("mailto:oscar_gomez2018@hotmail.com")} className="w-full text-[#B4B636] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636] text-sm sm:text-base">
-                    <Mail className="inline-block w-8 h-8" />
+                  <button onClick={() => window.open("mailto:oscar_gomez2018@hotmail.com")} className="hover:drop-shadow-[0_0_20px_rgba(211,214,26,1)] w-full text-white font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636] text-sm sm:text-base drop-shadow-[0_0_8px_rgba(211,214,26,0.7)] hover:scale-110 hover:rotate-1 hover:z-10 active:scale-95 active:rotate-0">
+                    <Mail className="inline-block w-8 h-8 hover:drop-shadow-[0_0_8px_rgba(211,214,26,0.7)] transition-all duration-300" />
                   </button>
                 </div>
               </div>
