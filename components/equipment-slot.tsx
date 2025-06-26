@@ -21,7 +21,7 @@ import {
   Drill,
   TrendingUp
 } from 'lucide-react';
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SkillEquipmentModal } from "./skill-equipment-modal"
 
 interface Equipment {
@@ -40,12 +40,23 @@ interface Equipment {
 
 interface EquipmentSlotProps {
   equipment: Equipment | null
+  index?: number
 }
 
-export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
+export function EquipmentSlot({ equipment, index = 0 }: EquipmentSlotProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    // Animación de entrada escalonada
+    const timer = setTimeout(() => {
+      setIsLoaded(true)
+    }, index * 150) // Delay basado en el índice
+
+    return () => clearTimeout(timer)
+  }, [index])
 
   const handleClick = () => {
     setIsClicked(true)
@@ -85,7 +96,7 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
       case "tendencia": return <TrendingUp className="w-6 h-6" />
       default: return <Code className="w-6 h-6" />
     }
-}
+  }
 
   const getRarityGlow = (rareza: string) => {
     const baseGlow = isHovered ? "shadow-2xl" : "shadow-lg"
@@ -97,17 +108,74 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
     }
   }
 
+  const getParticles = (rareza: string) => {
+    if (!isHovered && !isClicked) return null
+
+    const particleCount = rareza === "Legendario" ? 12 : rareza === "Épico" ? 8 : 6
+    const particles = []
+
+    for (let i = 0; i < particleCount; i++) {
+      const delay = i * 100
+      const randomX = Math.random() * 100
+      const randomY = Math.random() * 100
+      const randomSize = Math.random() * 4 + 2
+
+      let particleClass = ""
+      let particleColor = ""
+
+      switch (rareza) {
+        case "Legendario":
+          particleClass = "animate-ping"
+          particleColor = "bg-gradient-to-r from-pink-400 to-purple-500"
+          break
+        case "Épico":
+          particleClass = "animate-pulse"
+          particleColor = "bg-gradient-to-r from-yellow-400 to-orange-500"
+          break
+        case "Raro":
+          particleClass = "animate-bounce"
+          particleColor = "bg-gradient-to-r from-cyan-400 to-blue-500"
+          break
+        default:
+          particleClass = "animate-pulse"
+          particleColor = "bg-gray-400"
+      }
+
+      particles.push(
+        <div
+          key={i}
+          className={`absolute rounded-full ${particleColor} ${particleClass} opacity-60`}
+          style={{
+            left: `${randomX}%`,
+            top: `${randomY}%`,
+            width: `${randomSize}px`,
+            height: `${randomSize}px`,
+            animationDelay: `${delay}ms`,
+            animationDuration: rareza === "Legendario" ? "1s" : rareza === "Épico" ? "1.5s" : "2s"
+          }}
+        />
+      )
+    }
+
+    return particles
+  }
+
   if (!equipment) {
     return (
       <div 
-        className={`aspect-square bg-[#29293f]/30 rounded-lg border-2 border-dashed border-[#848792]/50 flex items-center justify-center transition-all duration-300 cursor-pointer group relative
+        className={`aspect-square bg-[#29293f]/30 rounded-lg border-2 border-dashed border-[#848792]/50 flex items-center justify-center transition-all duration-500 cursor-pointer group relative
           hover:border-[#1AD6BB]/70 hover:bg-[#29293f]/50 hover:scale-105 hover:shadow-lg hover:shadow-[#1AD6BB]/30
           active:scale-95 active:border-[#1AD6BB] active:shadow-xl active:shadow-[#1AD6BB]/50
           ${isClicked ? 'animate-pulse' : ''}
+          ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}
         `}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
+        style={{ 
+          transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          transitionDelay: isLoaded ? '0ms' : `${index * 150}ms`
+        }}
       >
         <Plus className={`w-6 h-6 text-[#848792] transition-all duration-300 group-hover:text-[#1AD6BB] group-hover:scale-110 group-hover:rotate-90
           ${isHovered ? 'drop-shadow-[0_0_8px_rgba(26,214,187,0.6)]' : ''}
@@ -123,16 +191,37 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
   return (
     <>
       <div
-        className={`relative aspect-square bg-gradient-to-b from-[#29293f] to-[#572F63] rounded-lg border-2 p-2 transition-all duration-300 cursor-pointer group overflow-hidden
+        className={`relative aspect-square bg-gradient-to-b from-[#29293f] to-[#572F63] rounded-lg border-2 p-2 transition-all duration-500 cursor-pointer group overflow-hidden
           hover:scale-110 hover:rotate-1 hover:z-10 active:scale-95 active:rotate-0
           ${getRarityGlow(rareza)}
           ${isClicked ? 'animate-bounce' : ''}
+          ${isLoaded ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-8'}
         `}
-        style={{ borderColor: getRarityColor(rareza) }}
+        style={{ 
+          borderColor: getRarityColor(rareza),
+          transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          transitionDelay: isLoaded ? '0ms' : `${index * 150}ms`
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
+        {/* Partículas de rareza */}
+        <div className="absolute inset-0 pointer-events-none">
+          {getParticles(rareza)}
+        </div>
+
+        {/* Efecto de brillo de fondo animado */}
+        {(isHovered || isClicked) && (
+          <div 
+            className="absolute inset-0 rounded-lg opacity-20 animate-pulse"
+            style={{ 
+              background: `radial-gradient(circle, ${getRarityColor(rareza)}40 0%, transparent 70%)`,
+              animationDuration: rareza === "Legendario" ? "0.8s" : rareza === "Épico" ? "1.2s" : "1.6s"
+            }}
+          />
+        )}
+
         <div className="w-full h-full flex flex-col items-center justify-center relative z-10">
           <div className={`mb-1 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 text-[#DEE4E4] group-hover:text-white
             ${isHovered ? 'drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]' : ''}
@@ -146,6 +235,11 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
             {nombre.split(" ")[0]}
           </div>
         </div>
+
+        {/* Efecto de loading inicial */}
+        {!isLoaded && (
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse rounded-lg" />
+        )}
       </div>
 
       {/* Modal al hacer clic */}

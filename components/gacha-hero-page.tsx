@@ -1,19 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import {
   Mail,
   Linkedin,
   Github,
   Info,
 } from "lucide-react";
-import { SkillEquipmentModal } from "./skill-equipment-modal";
+
+// Lazy Loading de componentes pesados
+const SkillEquipmentModal = lazy(() => import("./skill-equipment-modal").then(module => ({ default: module.SkillEquipmentModal })));
+const GitHubProfile = lazy(() => import('./github-profile').then(module => ({ default: module.GitHubProfile })));
+const GitHubContributions = lazy(() => import("./github-contributions").then(module => ({ default: module.GitHubContributions })));
+const AboutMeModal = lazy(() => import("./aboutme-modal").then(module => ({ default: module.AboutMeModal })));
+const GitHubRepositories = lazy(() => import("./github-repositories").then(module => ({ default: module.GitHubRepositories })));
+
+// Componentes que se mantienen síncronos por ser críticos
 import { StatsPanel } from "./stats-panel";
 import { EquipmentSlot } from "./equipment-slot";
-import { GitHubProfile } from './github-profile';
-import { GitHubContributions } from "./github-contributions";
-import { AboutMeModal } from "./aboutme-modal";
-import { GitHubRepositories } from "./github-repositories"
+
+// Componente de Loading personalizado
+const LoadingSpinner = ({ className = "" }) => (
+  <div className={`flex items-center justify-center ${className}`}>
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1AD6BB]"></div>
+  </div>
+);
+
+// Loading para secciones específicas
+const SectionLoader = ({ height = "h-32", text = "Cargando..." }) => (
+  <div className={`${height} flex flex-col items-center justify-center bg-[#29293f]/20 rounded-xl border border-[#848792]/20`}>
+    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#1AD6BB] mb-2"></div>
+    <span className="text-[#848792] text-sm">{text}</span>
+  </div>
+);
 
 interface DeveloperData {
   nombre: string;
@@ -168,7 +187,7 @@ export function GachaHeroPage() {
   const [selectedSkill, setSelectedSkill] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0C0B0C] overflow-hidden">
@@ -214,8 +233,15 @@ export function GachaHeroPage() {
               </div>
             </div>
 
-            {/* GitHub Section */}
-            <GitHubProfile />
+            {/* GitHub Profile Section - Lazy Loaded */}
+            <Suspense fallback={
+              <SectionLoader 
+                height="h-48" 
+                text="Cargando perfil de GitHub..." 
+              />
+            }>
+              <GitHubProfile />
+            </Suspense>
           </div>
         </div>
 
@@ -239,43 +265,45 @@ export function GachaHeroPage() {
               <div className="relative w-full max-w-xs sm:max-w-sm lg:max-w-none">
                 {/* Main Avatar Container */}
                 <div className="relative w-full aspect-[4/5] sm:w-64 sm:h-80 md:w-80 md:h-96 lg:w-96 lg:h-[550px] mx-auto rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-4 border-[#1AD6BB] shadow-[0_10px_30px_rgba(214,26,114,0.125)] transition delay-200 m-1">
-                <img
-                  src={developerData.avatar_url || "/placeholder.svg"}
-                  alt={developerData.nombre}
-                  className="w-full h-full object-cover"
-                />
+                  <img
+                    src={developerData.avatar_url || "/placeholder.svg"}
+                    alt={developerData.nombre}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
 
-                {/* About Me Button - Positioned at top-right of image */}
-                <button
-                  onClick={() => setIsAboutModalOpen(true)}
-                  className="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 bg-[#D61A72]/20 backdrop-blur-sm border border-[#D61A72]/50 rounded-lg p-2 sm:p-2.5 lg:p-3 hover:bg-[#D61A72]/30 transition-all duration-300 hover:scale-105 group"
-                >
-                  <Info className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#D61A72] group-hover:text-white transition-colors duration-300" />
-                </button>
+                  {/* About Me Button - Positioned at top-right of image */}
+                  <button
+                    onClick={() => setIsAboutModalOpen(true)}
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 bg-[#D61A72]/20 backdrop-blur-sm border border-[#D61A72]/50 rounded-lg p-2 sm:p-2.5 lg:p-3 hover:bg-[#D61A72]/30 transition-all duration-300 hover:scale-105 group"
+                  >
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#D61A72] group-hover:text-white transition-colors duration-300" />
+                  </button>
 
-                {/* Floating Particles Effect */}
-                <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden">
-                  <div className="absolute w-2 h-2 bg-[#1AD6BB] rounded-full animate-float-1" style={{ top: '20%', left: '10%', animationDelay: '0s' }}></div>
-                  <div className="absolute w-1.5 h-1.5 bg-[#D61A72] rounded-full animate-float-2" style={{ top: '60%', left: '80%', animationDelay: '1s' }}></div>
-                  <div className="absolute w-1 h-1 bg-[#D3D61A] rounded-full animate-float-3" style={{ top: '40%', left: '70%', animationDelay: '2s' }}></div>
-                  <div className="absolute w-2.5 h-2.5 bg-[#1AD6BB]/50 rounded-full animate-float-1" style={{ top: '80%', left: '20%', animationDelay: '0.5s' }}></div>
-                  <div className="absolute w-1.5 h-1.5 bg-[#D61A72]/60 rounded-full animate-float-2" style={{ top: '30%', left: '90%', animationDelay: '1.5s' }}></div>
-                  <div className="absolute w-1 h-1 bg-[#D3D61A]/70 rounded-full animate-float-3" style={{ top: '70%', left: '15%', animationDelay: '2.5s' }}></div>
+                  {/* Floating Particles Effect */}
+                  <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden">
+                    <div className="absolute w-2 h-2 bg-[#1AD6BB] rounded-full animate-float-1" style={{ top: '20%', left: '10%', animationDelay: '0s' }}></div>
+                    <div className="absolute w-1.5 h-1.5 bg-[#D61A72] rounded-full animate-float-2" style={{ top: '60%', left: '80%', animationDelay: '1s' }}></div>
+                    <div className="absolute w-1 h-1 bg-[#D3D61A] rounded-full animate-float-3" style={{ top: '40%', left: '70%', animationDelay: '2s' }}></div>
+                    <div className="absolute w-2.5 h-2.5 bg-[#1AD6BB]/50 rounded-full animate-float-1" style={{ top: '80%', left: '20%', animationDelay: '0.5s' }}></div>
+                    <div className="absolute w-1.5 h-1.5 bg-[#D61A72]/60 rounded-full animate-float-2" style={{ top: '30%', left: '90%', animationDelay: '1.5s' }}></div>
+                    <div className="absolute w-1 h-1 bg-[#D3D61A]/70 rounded-full animate-float-3" style={{ top: '70%', left: '15%', animationDelay: '2.5s' }}></div>
+                  </div>
+
+                  {/* Gradient Overlay Animation */}
+                  <div
+                    className="absolute inset-0 opacity-10 pointer-events-none"
+                    style={{
+                      background: `
+                        radial-gradient(circle at 30% 40%, rgba(26, 214, 187, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(214, 26, 114, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(211, 214, 26, 0.2) 0%, transparent 50%)
+                      `,
+                      animation: "gradientShift 4s ease-in-out infinite alternate"
+                    }}
+                  ></div>
                 </div>
-
-                {/* Gradient Overlay Animation */}
-                <div
-                  className="absolute inset-0 opacity-10 pointer-events-none"
-                  style={{
-                    background: `
-                      radial-gradient(circle at 30% 40%, rgba(26, 214, 187, 0.4) 0%, transparent 50%),
-                      radial-gradient(circle at 70% 60%, rgba(214, 26, 114, 0.3) 0%, transparent 50%),
-                      radial-gradient(circle at 50% 80%, rgba(211, 214, 26, 0.2) 0%, transparent 50%)
-                    `,
-                    animation: "gradientShift 4s ease-in-out infinite alternate"
-                  }}
-                ></div>
-              </div>
+                
                 {/* Social Buttons */}
                 <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
                   <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="hover:drop-shadow-[0_0_20px_rgba(203,57,158,1)] w-full text-white font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E] text-sm sm:text-base drop-shadow-[0_0_8px_rgba(203,57,158,0.8)] hover:scale-110 hover:rotate-1 hover:z-10 active:scale-95 active:rotate-0">
@@ -296,26 +324,48 @@ export function GachaHeroPage() {
         {/* Right Panel - Level and Stats */}
         <div className="w-full lg:w-[400px] xl:w-[600px] order-3 lg:order-none">
           <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
-            {/* Level Info */}
-            <GitHubContributions username="zelenmun" showMockData={false} />
+            {/* GitHub Contributions - Lazy Loaded */}
+            <Suspense fallback={
+              <SectionLoader 
+                height="h-64" 
+                text="Cargando contribuciones..." 
+              />
+            }>
+              <GitHubContributions username="zelenmun" showMockData={false} />
+            </Suspense>
 
-            {/* Stats Panel */}
-            <GitHubRepositories />
+            {/* GitHub Repositories - Lazy Loaded */}
+            <Suspense fallback={
+              <SectionLoader 
+                height="h-80" 
+                text="Cargando repositorios..." 
+              />
+            }>
+              <GitHubRepositories />
+            </Suspense>
           </div>
         </div>
       </div>
 
-      {/* Modals */}
-      <SkillEquipmentModal
-        skill={selectedSkill}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {/* Modals - Lazy Loaded */}
+      <Suspense fallback={null}>
+        {isModalOpen && (
+          <SkillEquipmentModal
+            skill={selectedSkill}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+      </Suspense>
 
-      <AboutMeModal
-        isOpen={isAboutModalOpen}
-        onClose={() => setIsAboutModalOpen(false)}
-      />
+      <Suspense fallback={null}>
+        {isAboutModalOpen && (
+          <AboutMeModal
+            isOpen={isAboutModalOpen}
+            onClose={() => setIsAboutModalOpen(false)}
+          />
+        )}
+      </Suspense>
 
       {/* Add shimmer animation styles */}
       <style jsx>{`
@@ -329,7 +379,6 @@ export function GachaHeroPage() {
         }
       `}</style>
       
-
       <style jsx>{`
         @keyframes float-1 {
           0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }

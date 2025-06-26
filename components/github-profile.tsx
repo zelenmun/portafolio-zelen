@@ -350,7 +350,7 @@ export function GitHubProfile() {
 
   return (
     <div className="relative z-10 flex flex-col lg:flex-row lg:pb-0">
-      <div className="w-full lg:w-[400px] xl:w-[500px] order-4 lg:order-none">
+      <div className="w-full lg:w-[400px] xl:w-[500px] 2xl:w-[800px] order-4 lg:order-none">
         <div className="relative rounded-2xl p-6 border-2 border-[#848792]/20 shadow-2xl backdrop-blur-sm overflow-hidden">
           {/* Background animated gradient */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#CB399E]/5 via-transparent to-[#1AD6BB]/5 animate-pulse" />
