@@ -80,23 +80,23 @@ const developerData: DeveloperData = {
 const equipmentData: Equipment[] = [
   {
     id: 1,
-    nombre: "Python Django",
+    nombre: "Python | Django",
     tipo: "Backend",
     rareza: "Legendario",
     icono: "python",
-    anos_uso: 3,
-    proyectos_relacionados: 10,
-    nivel: 85,
+    anos_uso: 1,
+    proyectos_relacionados: 3,
+    nivel: 45,
   },
   {
     id: 2,
-    nombre: "Fullstack Developer",
+    nombre: "React",
     tipo: "Fullstack",
     rareza: "Épico",
-    icono: "fullstack",
-    anos_uso: 2,
-    proyectos_relacionados: 8,
-    nivel: 80,
+    icono: "react",
+    anos_uso: 1,
+    proyectos_relacionados: 3,
+    nivel: 20,
   },
   {
     id: 3,
@@ -105,28 +105,28 @@ const equipmentData: Equipment[] = [
     rareza: "Raro",
     icono: "javascript",
     anos_uso: 2,
-    proyectos_relacionados: 15,
-    nivel: 75,
+    proyectos_relacionados: 6,
+    nivel: 60,
   },
   {
     id: 4,
-    nombre: "Docke Containerization",
+    nombre: "Docker | Containerization",
     tipo: "DevOps",
     rareza: "Raro",
     icono: "docker",
-    anos_uso: 1,
-    proyectos_relacionados: 5,
-    nivel: 70,
+    anos_uso: 0,
+    proyectos_relacionados: 1,
+    nivel: 10,
   },
   {
     id: 5,
-    nombre: "Database Sage",
+    nombre: "Database Management",
     tipo: "Database",
     rareza: "Épico",
     icono: "database",
-    anos_uso: 3,
-    proyectos_relacionados: 12,
-    nivel: 80,
+    anos_uso: 2,
+    proyectos_relacionados: 7,
+    nivel: 60,
   },
   {
     id: 6,
@@ -259,7 +259,7 @@ export function GachaHeroPage() {
                   ></div>
                 </div>
                 {/* Social Buttons */}
-                <div className="grid grid-cols-4 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
+                <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
                   <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E]/80 text-sm sm:text-base">
                     <Github className="inline-block w-8 h-8" />
                   </button>
