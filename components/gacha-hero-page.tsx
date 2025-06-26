@@ -2,34 +2,10 @@
 
 import { useState } from "react";
 import {
-  ArrowLeft,
-  Camera,
-  FileText,
-  Trophy,
-  Menu,
   Mail,
-  Bell,
-  Star,
-  Plus,
-  Atom,
-  FileCode,
-  Cloud,
-  GitBranch,
-  Database,
-  Shield,
-  Code,
-  Settings,
-  User,
-  Heart,
-  MessageCircle,
-  Lock,
-  Users,
   Linkedin,
   Github,
-  Phone,
-  X,
   Info,
-  Link
 } from "lucide-react";
 import { SkillEquipmentModal } from "./skill-equipment-modal";
 import { StatsPanel } from "./stats-panel";
@@ -60,6 +36,9 @@ interface Equipment {
   anos_uso: number;
   proyectos_relacionados: number;
   nivel: number;
+  skill1: string;
+  skill2: string;
+  skill3: string;
 }
 
 // Static developer data
@@ -87,6 +66,9 @@ const equipmentData: Equipment[] = [
     anos_uso: 1,
     proyectos_relacionados: 3,
     nivel: 45,
+    skill1: "Análisis de Datos",
+    skill2: "Desarrollo Web",
+    skill3: "Automatización",
   },
   {
     id: 2,
@@ -97,6 +79,9 @@ const equipmentData: Equipment[] = [
     anos_uso: 1,
     proyectos_relacionados: 3,
     nivel: 20,
+    skill1: "Desarrollo de Interfaces",
+    skill2: "Componentes Reutilizables",
+    skill3: "Gestión de Estado",
   },
   {
     id: 3,
@@ -107,6 +92,9 @@ const equipmentData: Equipment[] = [
     anos_uso: 2,
     proyectos_relacionados: 6,
     nivel: 60,
+    skill1: "Manipulación del DOM",
+    skill2: "Eventos y Asincronía",
+    skill3: "Desarrollo de Plugins",
   },
   {
     id: 4,
@@ -117,6 +105,9 @@ const equipmentData: Equipment[] = [
     anos_uso: 0,
     proyectos_relacionados: 1,
     nivel: 10,
+    skill1: "Despliegue de Aplicaciones",
+    skill2: "Aislamiento de Entornos",
+    skill3: "Escalabilidad",
   },
   {
     id: 5,
@@ -127,36 +118,48 @@ const equipmentData: Equipment[] = [
     anos_uso: 2,
     proyectos_relacionados: 7,
     nivel: 60,
+    skill1: "SQL",
+    skill2: "Optimización de Consultas",
+    skill3: "PostgreSQL, MySQL, MongoDB",
   },
   {
     id: 6,
-    nombre: "Mechanical Workshop App",
+    nombre: "Mantenimiento y Soporte",
     tipo: "Logro",
     rareza: "Legendario",
-    icono: "trophy",
-    anos_uso: 1,
-    proyectos_relacionados: 1,
-    nivel: 90,
+    icono: "devops",
+    anos_uso: 2,
+    proyectos_relacionados: 7,
+    nivel: 70,
+    skill1: "Resolución de Problemas",
+    skill2: "Actualizaciones de Seguridad",
+    skill3: "Documentación",
   },
   {
     id: 7,
-    nombre: "Rapid Promotion",
+    nombre: "Adaptabilidad",
     tipo: "Logro",
     rareza: "Épico",
     icono: "medal",
     anos_uso: 1,
     proyectos_relacionados: 0,
     nivel: 85,
+    skill1: "Aprendizaje Continuo",
+    skill2: "Aprendizaje Rápido",
+    skill3: "Trabajo en Equipo",
   },
   {
     id: 8,
-    nombre: "Optimization",
+    nombre: "Optimización de Código",
     tipo: "Habilidad",
     rareza: "Raro",
-    icono: "lightbulb",
+    icono: "tendencia",
     anos_uso: 2,
     proyectos_relacionados: 3,
     nivel: 75,
+    skill1: "Refactorización",
+    skill2: "Mejora de Rendimiento",
+    skill3: "Código Limpio",
   },
 ];
 
@@ -260,13 +263,13 @@ export function GachaHeroPage() {
                 </div>
                 {/* Social Buttons */}
                 <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-4 relative w-full lg:w-96 mx-auto">
-                  <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E]/80 text-sm sm:text-base">
+                  <button onClick={() => window.open("https://github.com/zelenmun", "_blank")} className="w-full text-[#B1336E] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B1336E] text-sm sm:text-base">
                     <Github className="inline-block w-8 h-8" />
                   </button>
-                  <button onClick={() => window.open("https://www.linkedin.com/in/oscar-moran-gomez/", "_blank")} className="w-full text-[#26AA9B] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B]/80 text-sm sm:text-base">
+                  <button onClick={() => window.open("https://www.linkedin.com/in/oscar-moran-gomez/", "_blank")} className="w-full text-[#26AA9B] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#26AA9B] text-sm sm:text-base">
                     <Linkedin className="inline-block w-8 h-8" />
                   </button>
-                  <button onClick={() => window.open("mailto:oscar_gomez2018@hotmail.com")} className="w-full text-[#B4B636] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636]/80 text-sm sm:text-base">
+                  <button onClick={() => window.open("mailto:oscar_gomez2018@hotmail.com")} className="w-full text-[#B4B636] font-bold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-[#B4B636] text-sm sm:text-base">
                     <Mail className="inline-block w-8 h-8" />
                   </button>
                 </div>

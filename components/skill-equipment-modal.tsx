@@ -1,6 +1,6 @@
 "use client"
 
-import { X, Star, Calendar, Trophy, Target, Code, Users, Book, TrendingUp, Sparkles } from "lucide-react"
+import { X, Star, Calendar, Trophy, Target, Code, Users, Book, TrendingUp, Sparkles, Cog } from "lucide-react"
 import { useEffect, useState, memo, useMemo, useCallback } from "react"
 
 interface Skill {
@@ -9,7 +9,10 @@ interface Skill {
   nivel: number
   rareza: string
   anos_uso: number
-  proyectos_relacionados: number
+  proyectos_relacionados: number,
+  skill1: string
+  skill2: string
+  skill3: string
 }
 
 interface SkillEquipmentModalProps {
@@ -93,6 +96,7 @@ const StatCard = memo(({
   label, 
   sublabel, 
   value, 
+  maxvalue,
   unit,
   color, 
   bgColor, 
@@ -103,6 +107,7 @@ const StatCard = memo(({
   label: string,
   sublabel: string,
   value: number,
+  maxvalue: number,
   unit: string,
   color: string,
   bgColor: string,
@@ -157,7 +162,7 @@ const StatCard = memo(({
           />
         </div>
       </div>
-      <StatBar value={typeof value === 'number' ? value : 0} maxValue={100} color={color} isVisible={isVisible} />
+      <StatBar value={typeof value === 'number' ? value : 0} maxValue={maxvalue} color={color} isVisible={isVisible} />
     </div>
   )
 })
@@ -316,6 +321,7 @@ export function SkillEquipmentModal({ skill, isOpen, onClose }: SkillEquipmentMo
               label="NIVEL DE DOMINIO"
               sublabel="Skill Mastery"
               value={skill.nivel}
+              maxvalue={100}
               unit="%"
               color="#D61A72"
               bgColor="from-[#CB399E]/10 to-transparent"
@@ -328,6 +334,7 @@ export function SkillEquipmentModal({ skill, isOpen, onClose }: SkillEquipmentMo
               label="EXPERIENCIA"
               sublabel="Years of Practice"
               value={skill.anos_uso}
+              maxvalue={5}
               unit=" años"
               color="#D3D61A"
               bgColor="from-[#2E5677]/10 to-transparent"
@@ -340,6 +347,7 @@ export function SkillEquipmentModal({ skill, isOpen, onClose }: SkillEquipmentMo
               label="PROYECTOS"
               sublabel="Professional Work"
               value={skill.proyectos_relacionados}
+              maxvalue={15}
               unit=""
               color="#1AD6BB"
               bgColor="from-[#1AD6BB]/10 to-transparent"
@@ -383,7 +391,7 @@ export function SkillEquipmentModal({ skill, isOpen, onClose }: SkillEquipmentMo
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#CB399E] via-[#2E5677] to-[#1AD6BB] transition-all duration-2000 ease-out"
                 style={{
-                  width: `${Math.min((totalPower / 500) * 100, 100)}%`,
+                  width: `${Math.min((totalPower / 200) * 100, 100)}%`,
                 }}
               />
             </div>
@@ -393,31 +401,33 @@ export function SkillEquipmentModal({ skill, isOpen, onClose }: SkillEquipmentMo
           <div className="bg-[#29293f]/30 rounded-xl p-4 border border-[#1AD6BB]/30 animate-slide-up transition-all duration-300 hover:bg-[#29293f]/50 hover:border-[#1AD6BB]/50" style={{ animationDelay: '900ms' }}>
             <h3 className="text-[#DEE4E4] font-bold mb-3 flex items-center text-sm tracking-wide">
               <Target className="w-4 h-4 mr-2 text-[#1AD6BB] animate-spin-slow" />
-              LOGROS DESTACADOS
+              SKILLS
             </h3>
-            <div className="space-y-2">
-              <div className="flex items-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#D61A72] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1000ms' }}>
-                <div className="w-2 h-2 bg-[#D61A72] rounded-full mr-3 animate-pulse"></div>
-                Certificación profesional obtenida
+            <div className="space-y-3">
+              <div className="flex items-center justify-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#D61A72] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1000ms' }}>
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#CB399E] to-transparent opacity-60" />
+                  <span className="font-medium">{skill.skill1}</span>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#1AD6BB] to-transparent opacity-60" />
+                </div>
               </div>
-              <div className="flex items-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#1AD6BB] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1100ms' }}>
-                <div className="w-2 h-2 bg-[#1AD6BB] rounded-full mr-3 animate-pulse"></div>
-                Proyectos enterprise completados
+              
+              <div className="flex items-center justify-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#1AD6BB] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1100ms' }}>
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#CB399E] to-transparent opacity-60" />
+                  <span className="font-medium">{skill.skill2}</span>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#1AD6BB] to-transparent opacity-60" />
+                </div>
               </div>
-              <div className="flex items-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#D3D61A] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1200ms' }}>
-                <div className="w-2 h-2 bg-[#D3D61A] rounded-full mr-3 animate-pulse"></div>
-                Mentor de equipo de desarrollo
+              
+              <div className="flex items-center justify-center text-sm text-[#DEE4E4] transition-all duration-200 hover:text-[#D3D61A] hover:translate-x-2 animate-achievement" style={{ animationDelay: '1200ms' }}>
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#CB399E] to-transparent opacity-60" />
+                  <span className="font-medium">{skill.skill3}</span>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-[#1AD6BB] to-transparent opacity-60" />
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Description */}
-          <div className="bg-gradient-to-r from-[#572F63]/30 to-[#2E5677]/30 rounded-xl p-4 border border-[#848792]/20 animate-slide-up transition-all duration-300 hover:from-[#572F63]/50 hover:to-[#2E5677]/50 hover:border-[#848792]/40 mt-4" style={{ animationDelay: '1000ms' }}>
-            <p className="text-[#DEE4E4] text-sm leading-relaxed">
-              Tecnología dominada con {skill.anos_uso} años de experiencia práctica. Utilizada en{" "}
-              {skill.proyectos_relacionados} proyectos profesionales, demostrando un nivel de expertise{" "}
-              {skill.rareza.toLowerCase()} en el ecosistema de desarrollo.
-            </p>
           </div>
         </div>
       </div>

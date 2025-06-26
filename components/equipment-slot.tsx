@@ -17,7 +17,9 @@ import {
   Cog,
   Award,
   Plus,
-  Zap
+  Zap,
+  Drill,
+  TrendingUp
 } from 'lucide-react';
 import { useState } from "react"
 import { SkillEquipmentModal } from "./skill-equipment-modal"
@@ -31,6 +33,9 @@ interface Equipment {
   anos_uso: number
   proyectos_relacionados: number
   nivel: number
+  skill1: string
+  skill2: string
+  skill3: string
 }
 
 interface EquipmentSlotProps {
@@ -76,6 +81,8 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
       case "devops": return <Cog className="w-6 h-6" />
       case "logro": return <Award className="w-6 h-6" />
       case "habilidad": return <Zap className="w-6 h-6" />
+      case "drill": return <Drill className="w-6 h-6" />
+      case "tendencia": return <TrendingUp className="w-6 h-6" />
       default: return <Code className="w-6 h-6" />
     }
 }
@@ -83,9 +90,9 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
   const getRarityGlow = (rareza: string) => {
     const baseGlow = isHovered ? "shadow-2xl" : "shadow-lg"
     switch (rareza) {
-      case "Legendario": return `${baseGlow} shadow-[#CB399E]/60 ${isHovered ? 'drop-shadow-[0_0_20px_rgba(203,57,158,0.8)]' : ''}`
-      case "Épico": return `${baseGlow} shadow-[#572F63]/60 ${isHovered ? 'drop-shadow-[0_0_15px_rgba(87,47,99,0.7)]' : ''}`
-      case "Raro": return `${baseGlow} shadow-[#2E5677]/60 ${isHovered ? 'drop-shadow-[0_0_12px_rgba(46,86,119,0.6)]' : ''}`
+      case "Legendario": return `${baseGlow} shadow-[#CB399E]/60 ${isHovered ? 'drop-shadow-[0_0_25px_rgba(203,57,158,0.8)]' : ''}`
+      case "Épico": return `${baseGlow} shadow-[#572F63]/60 ${isHovered ? 'drop-shadow-[0_0_20px_rgba(87,47,99,0.7)]' : ''}`
+      case "Raro": return `${baseGlow} shadow-[#2E5677]/60 ${isHovered ? 'drop-shadow-[0_0_15px_rgba(46,86,119,0.6)]' : ''}`
       default: return `${baseGlow} shadow-[#848792]/40`
     }
   }
@@ -149,7 +156,10 @@ export function EquipmentSlot({ equipment }: EquipmentSlotProps) {
           nivel: equipment.nivel,
           rareza: equipment.rareza,
           anos_uso: equipment.anos_uso,
-          proyectos_relacionados: equipment.proyectos_relacionados
+          proyectos_relacionados: equipment.proyectos_relacionados,
+          skill1: equipment.skill1,
+          skill2: equipment.skill2,
+          skill3: equipment.skill3,
         }}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
